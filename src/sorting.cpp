@@ -8,31 +8,136 @@
 namespace SortingAlgorithms {
 
 void bubbleSort(int arr[], int n) {
-    
+    int temp;
+    for (int i = 0; i < n-1; i++) {
+        for (int j = 0; j < n-i-1; j++) {
+            if (arr[j] > arr[j+1]) {
+                temp = arr[j];
+                arr[j] = arr[j+1];
+                arr[j+1] = temp;
+            }
+
+        }
+
+    }
 }
 
 void selectionSort(int arr[], int n) {
+    int min;
+    int temp;
+    for (int i = 0; i < n-1; i++) {
+        min = i;
+        for (int j = i+1; j < n; j++) {
+            if (arr[min] > arr[j]) {
+                min = j;
+
+            }
+        }
+        temp = arr[i];
+        arr[i] = arr[min];
+        arr[min] = temp;
+    }
     
 }
 
 void insertionSort(int arr[], int n) {
-    
+    int temp;
+    for (int i = 1; i < n; i++) {
+        temp = arr[i];
+        int j = i-1;
+
+        while(j>=0 && arr[j] > temp) {
+            arr[j+1] = arr[j];
+            j--;
+        }
+        arr[j+1] = temp;
+    }
 }
 
 void merge(int arr[], int left, int mid, int right) {
+    int la = mid - left+1;
+    int ra = right-mid;
+    int* L = new int[la]; //me ayudo chat
+    int* R = new int[ra];
+
+    for (int i = 0; i < la; i++){
+        L[i] = arr[left + i];
+    }
+
+    for (int j = 0; j < ra; j++) {
+        R[j] = arr[mid + 1 + j];
+    }
+
+    int l = 0;  
+    int r = 0;  
+    int o = left;
     
+    while (l < la && r < ra) {
+        if (L[l]<=R[r]) {
+            arr[o] = L[l];
+            l++;
+        }
+        else {
+            arr[o] = R[r];
+            r++;
+        }
+    o++;
+    }
+
+    while (l<la) {
+        arr[o] = L[l];
+        l++;
+        o++;
+    }
+    while (r < ra) {
+        arr[o] = R[r];
+        r++;
+        o++;
+    }
+
+    delete[] L; //me ayudo chat
+    delete[] R;
+
 }
 
 void mergeSort(int arr[], int left, int right) {
-    
+    if (left < right) {
+        int mid = left + (right - left)/2;
+
+        mergeSort(arr, left, mid);
+        mergeSort(arr, mid+1, right);
+        merge(arr, left, mid, right);
+
+
+    }
+
 }
 
 int partition(int arr[], int low, int high) {
-    
-    return 0;
+
+    int pivot = arr[high];
+    int i = low-1;
+
+    for (int j = low; j<=high-1; j++) {
+        if (arr[j] < pivot) {
+            i++;
+            int temp = arr[i];
+            arr[i] = arr[j];
+            arr[j] = temp;
+        }
+    }
+    i++;
+    int temp = arr[i];
+    arr[i] = arr[high];
+    arr[high] = temp;
+    return i;
 }
 
 void quickSort(int arr[], int low, int high) {
+    if (high <= low) return;
+    int pivot = partition(arr, low, high);
+    quickSort(arr, low, pivot-1);
+    quickSort(arr, pivot+1, high);
     
 }
 
